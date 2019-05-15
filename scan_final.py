@@ -11,7 +11,7 @@ import time
 from firebase import firebase_utils as utils
 import oled.oled_device as oled
 import translator as trans
-def _init():
+def p_init():
 	import conn
 	if not conn:
 		print("no internet!")
@@ -20,14 +20,14 @@ def _init():
 		auth_laxz()
 	else:
 		pass
-	__init()
+	p__init()
 def auth_laxz():
 	try:
 		import firebase.firebase_cred
 		auth=1
 	except Exception as e:
 		print("Exception Message: "+str(e))
-def __init():
+def p__init():
 	from pyfingerprint.pyfingerprint import PyFingerprint as pfp
 	import firebase.fire_laxz as fire
 	try:
@@ -82,4 +82,4 @@ def _s(m):
 
 if __name__=="__main__":
 	while True:
-		_init()
+		p_init()

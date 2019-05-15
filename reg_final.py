@@ -11,7 +11,7 @@ import translator as trans
 import time
 auth = 0
 
-def _init():
+def p_init():
 	import conn
 	if not conn:
 		print("no internet")
@@ -20,13 +20,13 @@ def _init():
 		auth_laxz()
 	else:
 		pass
-	__init()
+	p__init()
 
 def auth_laxz():
 	from firebase import firebase_cred
 	auth = 1
 
-def __init():
+def p__init():
 	from pyfingerprint.pyfingerprint import PyFingerprint as pfp
 	try:
 		f = pfp('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
@@ -112,4 +112,4 @@ def _s(m):
 
 if __name__ =="__main__":
 	while True:
-		_init()
+		p_init()
