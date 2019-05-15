@@ -104,4 +104,6 @@ venv.bak/
 .mypy_cache/
 
 firebase/s_key.json
-
+firebase/__pycache__
+oled/__pycache__
+dev/__pycache__
