@@ -30,15 +30,16 @@ def auth_laxz():
 def p__init():
 	from pyfingerprint.pyfingerprint import PyFingerprint as pfp
 	try:
-		f = pfp('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
-		if(f.verifyPassword() == False):
+		global fp
+		fp = pfp('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+		if(fp.verifyPassword() == False):
 			raise ValueError("Sensor password is wrong.")
 	except Exception as e:
 		print("[ERROR] :Fingerprint sensor could not be initialized!")
 		print("Exception Message : " + str(e))
 		print("[ERROR] :Exiting ...")
 		exit(1)
-	_s("used templates: {0}".format(f.getTemplateCount()))
+	_s("used templates: {0}".format(fp.getTemplateCount()))
 	time.sleep(1)
 
 	#print('Currently used templates: ' + str(f.getTemplateCount()) +'/'+ str(f.getStorageCapacity()))
@@ -86,13 +87,14 @@ def p__init():
 def get_finger():
 	_s("Waiting for finger image...")
 	print("[INFO] :Waiting for finger ...")
-	while(f.readImage()== False):
+	while(fp.readImage()== False):
 		pass
 	_s("Enrolling.. Hold on.")
 	print("Please hold on ...")
 	time.sleep(1)
-	f.convertImage(0x01)
-	position = f.searchTemplate()[0]
+	fp.convertImage(0x01)
+	position = fp.searchTemplate()[0]
+	result = fp.searchTemplate()[1]
 	if(position >= 0):
 		_s("This user fingerprint already exists.")
 		print("Already exists at :{0} and accurancy:{1}".format(position,result[1]))
@@ -103,10 +105,10 @@ def get_finger():
 		time.sleep(1)
 		_s("Waiting for same finger again.")
 		print('Waiting for same finger again...')
-		while (f.readImage()==False):
+		while (fp.readImage()==False):
 			pass
-		f.convertImage(0x02)
-	return f
+		fp.convertImage(0x02)
+	return fp
 
 def _s(m):
 	oled.show_text_sm(m)

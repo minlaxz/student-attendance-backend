@@ -1,9 +1,8 @@
 #THIS IS BETA
-
+from firebase_admin import db
+from datetime import date,datetime
+today=date.today()
 class Job:
-	from firebase_admin import db
-	from datetime import date,datetime
-	today=date.today()
 	print("00p developed by ...")
 	def __init__(self,name,rollNumber,fingerID):
 		self.name=name
