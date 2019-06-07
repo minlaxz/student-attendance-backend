@@ -6,6 +6,7 @@ All rights reserved.
 """
 #REGISTER
 from firebase import firebase_utils as utils
+from firebase import fire_laxz as fire
 import oled.oled_device as oled
 import translator as trans
 import time
@@ -47,7 +48,7 @@ def p__init():
 		roll = input("Enter Roll(eg:5ec39): ")
 		_s("Roll number is :{0}".format(roll))
 		if fire.check_user(roll):
-			f=get_finger()
+			f = get_finger()
 			if (f.compareCharacteristics()==0):
 				_s("Finigerprints do not match! resetting ...")
 				print("Don not match! try again.")

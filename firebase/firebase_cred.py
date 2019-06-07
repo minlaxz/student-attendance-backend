@@ -4,7 +4,8 @@ cred = credentials.Certificate('firebase/s_key.json')
 
 try:
 	initialize_app(cred, {
-		'databaseURL': 'https://raspberrypi75955.firebaseio.com/',
+		#'databaseURL': 'https://raspberrypi75955.firebaseio.com/',
+		'databaseURL' : 'https://laxz-test.firebaseio.com/',
 		'databaseAuthVariableOverride': {
 		'uid': 'laxz-writer'
 		}
