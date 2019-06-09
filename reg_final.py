@@ -1,7 +1,8 @@
 """
 PyFingerprint
 Copyright (C) 2015 Bastian Raschke <bastian.raschke@posteo.de>
-oop and functional coded by laxz : m.me/minlaxz
+
+oop and functional coded by <laxz> : m.me/minlaxz,github.com/minlaxz
 All rights reserved.
 """
 #REGISTER
@@ -42,11 +43,11 @@ def p__init():
 	_s("used templates: {0}".format(fp.getTemplateCount()))
 	time.sleep(1)
 
-	#print('Currently used templates: ' + str(f.getTemplateCount()) +'/'+ str(f.getStorageCapacity()))
+	#print('Currently used templates: ' + str(f.getTemplateCount()) +'/'+ str(f.getStorageCapacity())) ##CHECK 
 	try:
 		name = input("Enter Name: ")
 		_s("Processing for {0}".format(name))
-		roll = input("Enter Roll(eg:5ec39): ")
+		roll = input("Enter Roll(eg:meec1): ")
 		_s("Roll number is :{0}".format(roll))
 		if fire.check_user(roll):
 			f = get_finger()
@@ -56,23 +57,36 @@ def p__init():
 				time.sleep(2)
 			else:
 				f.createTemplate()
-				fingerID = str(f.storeTemplate())
-				_s("Enrolled Successfully")
-				print("Enrolled Successfully, at Position: "+ fingerID)
+
 				user=utils.Job(name,roll,fingerID)
-				user.register_this()
-				_s("Registered to firebase")
-				time.sleep(1)
+
 				try:
+					user.register_this()
+					_s("Registered to Firebase")
+					print("Registered to Firebase")
+
+					time.sleep(1)
+
 					trans.Job(user.roll,None).count_this()
+					
+					_s("Registered to local translator.")
+					print("Registered to local translator.")
+
+					time.sleep(1)
+					
+					##to ensure that everything is update after that store in module
+
+					fingerID = str(f.storeTemplate())
+					_s("Enrolled Successfully to fingerprint module")
+					print("Enrolled Successfully to fingerprint module, at Position: "+ fingerID)
+
 				except Exception as e:
-					print(e)
-				_s("Registered to local translator.")
-				time.sleep(1)
+					print(str(e))
+
 				print("Process Done!")
 		else:
-			print("User found is database.")
-			_s("Error")
+			print("User is found in database.")
+			_s("User found : Error")
 
 	except KeyboardInterrupt:
 		#raise Exception("User stopped the program")
@@ -84,7 +98,7 @@ def p__init():
 		print(str(e))
 		exit(1)
 
-def get_finger():
+def get_finger(): #TODO compare characteristics here and return filtered data
 	_s("Waiting for finger image...")
 	print("[INFO] :Waiting for finger ...")
 	while(fp.readImage()== False):
