@@ -18,7 +18,7 @@ class Job:
 			u'attendance':1,
 			u'registered_date':str(date.today()),
 			u'last_update':str(date.today().day),
-			u'last_update_long':str(datime.today()),
+			u'last_update_long':str(datetime.today()),
 			u'roll':self.roll,
 			u'fingerID':self.id
 		})
