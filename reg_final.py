@@ -49,7 +49,8 @@ def p__init():
 		_s("Processing for {0}".format(name))
 		roll = input("Enter Roll(eg:meec1): ")
 		_s("Roll number is :{0}".format(roll))
-		if fire.check_user(roll):
+		user = utils.Job(name,roll,None)
+		if user.check_user():
 			f = get_finger()
 			if (f.compareCharacteristics()==0):
 				_s("Finigerprints do not match! resetting ...")
@@ -60,7 +61,7 @@ def p__init():
 				fingerID = str(f.storeTemplate())
 				_s("Enrolled Successfully to fingerprint module")
 				print("Enrolled Successfully to fingerprint module, at Position: "+ fingerID)
-				user=utils.Job(name,roll,fingerID)
+				user = utils.Job(name,roll,fingerID)
 
 				try:
 					user.register_this()
@@ -93,8 +94,9 @@ def p__init():
 		time.sleep(1)
 		exit(1)
 	except Exception as e:
-		print(str(e))
-		exit(1)
+		#print(str(e))
+		#exit(1)
+		print(e)
 
 def get_finger(): #TODO compare characteristics here and return filtered data
 	_s("Waiting for finger image...")
