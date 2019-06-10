@@ -57,7 +57,9 @@ def p__init():
 				time.sleep(2)
 			else:
 				f.createTemplate()
-
+				fingerID = str(f.storeTemplate())
+				_s("Enrolled Successfully to fingerprint module")
+				print("Enrolled Successfully to fingerprint module, at Position: "+ fingerID)
 				user=utils.Job(name,roll,fingerID)
 
 				try:
@@ -74,12 +76,8 @@ def p__init():
 
 					time.sleep(1)
 					
-					##to ensure that everything is update after that store in module
-
-					fingerID = str(f.storeTemplate())
-					_s("Enrolled Successfully to fingerprint module")
-					print("Enrolled Successfully to fingerprint module, at Position: "+ fingerID)
-
+					#TODO to ensure that everything is update after that store in module.
+				
 				except Exception as e:
 					print(str(e))
 
@@ -93,7 +91,7 @@ def p__init():
 		print("\n user STOPPED the program")
 		_s("user stopped.")
 		time.sleep(1)
-		exit(0)
+		exit(1)
 	except Exception as e:
 		print(str(e))
 		exit(1)
