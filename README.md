@@ -1,7 +1,8 @@
 # Raspberry Pi Student Attendance System.
-# __[ClientSideProject:] (https://github.com/minlaxz/firebase_client)__ (Under maintainance.)
-### __Requirements :)__
 
+__[ClientSideProject:] (https://github.com/minlaxz/firebase_client)__ (Under maintainance.)
+
+### __Requirements :)__
 ## Links
 - __[FP_module] (https://www.amazon.ae/Optical-Fingerprint-Reader-Detection-Function/dp/B07P83QR3J)__ -
 - __[OLED Display] (https://www.waveshare.com/wiki/1.3inch_OLED_(A))__ -
