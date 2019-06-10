@@ -48,7 +48,7 @@ def del_me():
             print('Operation failed!')
             exit(1)
     else:
-        print('Adios!')
+        print('Adios Amigos!')
 
 used = f.getTemplateCount() #0,1,2,3 = 4
 print('Currently used templates: ' + str(used) +'/'+ str(f.getStorageCapacity()))
