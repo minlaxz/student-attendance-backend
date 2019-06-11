@@ -14,6 +14,7 @@ from sys import exit
 def init_sensor():
 
     try:
+        global f
         f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
 
         if ( f.verifyPassword() == False ):
@@ -28,12 +29,12 @@ def init_sensor():
     print('Currently used templates: ' + str(used) +'/'+ str(f.getStorageCapacity()))
 
     if(used > 0):
-        del_me()
+        del_me(used)
     else:
         print("Nothing to be deleted !")
         print("Exit.")
 
-def del_me():
+def del_me(used):
 
     user = input("Delete from module? y/n:")
     if (user == 'y'):
