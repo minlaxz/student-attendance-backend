@@ -11,20 +11,31 @@ from sys import exit
 
 ## Deletes a finger from sensor
 
-try:
-    f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+def init_sensor():
 
-    if ( f.verifyPassword() == False ):
-        raise ValueError('The given fingerprint sensor password is wrong!')
+    try:
+        f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
 
-except Exception as e:
-    print('The fingerprint sensor could not be initialized!')
-    print('Exception message: ' + str(e))
-    exit(1)
+        if ( f.verifyPassword() == False ):
+            raise ValueError('The given fingerprint sensor password is wrong!')
+
+    except Exception as e:
+        print('The fingerprint sensor could not be initialized!')
+        print('Exception message: ' + str(e))
+        exit(1)
+
+    used = f.getTemplateCount() #0,1,2,3 = 4
+    print('Currently used templates: ' + str(used) +'/'+ str(f.getStorageCapacity()))
+
+    if(used > 0):
+        del_me()
+    else:
+        print("Nothing to be deleted !")
+        print("Exit.")
 
 def del_me():
 
-    user = input("Delete? y/n:")
+    user = input("Delete from module? y/n:")
     if (user == 'y'):
 
         try:
@@ -49,16 +60,26 @@ def del_me():
             exit(1)
     else:
         print('Adios Amigos!')
+        exit(0)
 
-used = f.getTemplateCount() #0,1,2,3 = 4
-print('Currently used templates: ' + str(used) +'/'+ str(f.getStorageCapacity()))
+    userlog = input("Override user.log file? y/n:")
+
+    if(userlog == 'y'):
+
+        userLogOverwrite()
+
+    else:
+        print("You may get error with module, manaully overwrite user.log file")
+        exit(0)
+
+    print("All done TODO delete firebase database childs.")
+def userLogOverwrite():
+    users = '[]\n'
+    with open('user.log','w') as f:
+        f.write(users)
 
 
-if(used > 0):
 
-    del_me()
-else:
+if __name__=='__main__':
 
-    print("Nothing to be deleted !")
-    print("Exit.")
-
+    init_sensor()
