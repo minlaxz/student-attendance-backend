@@ -11,6 +11,7 @@ from firebase import fire_laxz as fire
 import oled.oled_device as oled
 import translator as trans
 import time
+import sys
 auth = 0
 
 def p_init():
@@ -91,8 +92,9 @@ def p__init():
 		#raise Exception("User stopped the program")
 		print("\n user STOPPED the program")
 		_s("user stopped.")
+		#del user
 		time.sleep(1)
-		exit(1)
+		exit(0)
 	except Exception as e:
 		#print(str(e))
 		#exit(1)
