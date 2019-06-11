@@ -2,6 +2,12 @@
 from firebase_admin import db
 from datetime import date,datetime
 today=date.today()
+
+dayObject = datetime.now()
+day = dayObject.strftime("%W")
+month = dayObject.strftime("%B")
+year = dayObject.strftime("%Y")
+
 class Job:
 	print("00p developed by ...")
 	def __init__(self,name,rollNumber,fingerID):
@@ -15,10 +21,9 @@ class Job:
 		try:
 			self.ref.set({
 			u'name':self.name,
-			u'attendance':1,
-			u'registered_date':str(date.today()),
-			u'last_update':str(date.today().day),
-			u'last_update_long':str(datetime.today()),
+			u'attendance':{month : {day:'Present'}},
+			u'registered_date':year+'-'+month+'-'+day,
+			u'register_date_detail':str(dayObject),
 			u'roll':self.roll,
 			u'fingerID':self.id
 		})
@@ -43,5 +48,5 @@ class Job:
 			print('Registering ...')
 			return True
 		else:
-			print('User Exist')
+			print('User Exist in firebase database')
 			return False
