@@ -9,5 +9,5 @@ def get_device():
     except Exception as e:
         print(e)
     serial = spi(device=0, port=0, bus_speed_hz=8000000, transfer_size=4096,gpio_DC=DC, gpio_RST=RST)
-    return(sh1106(serial, rotate=2))
+    return(sh1106(serial, rotate=0))
 
