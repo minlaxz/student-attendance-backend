@@ -31,8 +31,7 @@ def init_sensor():
     if(used > 0):
         del_me(used)
     else:
-        print("Nothing to be deleted !")
-        print("Exit.")
+        print("Nothing to be deleted in module!")
 
 def del_me(used):
 
@@ -52,7 +51,7 @@ def del_me(used):
                     print("Internal Error")
 
         except KeyboardInterrupt:
-            print("-fingerprint delete- operation cancled")
+            print("-fingerprint delete- operation canceled")
             exit(0)
 
         except Exception as e:
@@ -61,9 +60,18 @@ def del_me(used):
             exit(1)
     else:
         print('Adios Amigos!')
-        exit(0)
+        #exit(0)
 
-    userlog = input("Override user.log file? y/n:")
+    with open('user.log','r') as f:
+        data = f.read()
+
+
+    if(len(data) > 3):
+
+        userlog = input("Override user.log file? y/n:")
+    else:
+        print("Nothing to overwirte! user.log")
+        exit(0)
 
     if(userlog == 'y'):
 
@@ -74,6 +82,7 @@ def del_me(used):
         exit(0)
 
     print("All done TODO delete firebase database childs.")
+
 def userLogOverwrite():
     users = '[]\n'
     with open('user.log','w') as f:
