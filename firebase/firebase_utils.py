@@ -22,7 +22,7 @@ class Job:
 			self.ref.set({
 			u'name':self.name,
 			u'attendance':{month : {day:'Present'}},
-			u'registered_date':year+'-'+month+'-'+day,
+			u'updated_date':year+'-'+month+'-'+day,
 			u'register_date_detail':str(dayObject),
 			u'roll':self.roll,
 			u'fingerID':self.id
@@ -34,11 +34,13 @@ class Job:
 	def update_this(self):
 		print('processing...')
 		try:
-			e=(db.reference('project/student/'+self.roll+'/attendance').get())+1
+			#e=(db.reference('project/student/'+self.roll+'/attendance').get())+1
+			e = db.reference('project/student/'+self.roll+'/attendance/'+month)
+			e.update({day:'Present'})
 			self.ref.update({
-				u'attendance':e,
-				u'last_update':date.today().day,
-				u'last_update_long':str(datetime.today())
+				#u'attendance':{month : {day:'Present'}},
+				u'updated_date':year+"-"+month+"-"+day
+				
 			})
 		except Exception as e:
 			print(e)
