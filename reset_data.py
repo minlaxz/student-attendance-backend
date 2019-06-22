@@ -12,9 +12,7 @@ from sys import exit
 ## Deletes a finger from sensor
 
 def init_sensor():
-
     try:
-        global f
         f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
 
         if ( f.verifyPassword() == False ):
@@ -29,11 +27,11 @@ def init_sensor():
     print('Currently used templates: ' + str(used) +'/'+ str(f.getStorageCapacity()))
 
     if(used > 0):
-        del_me(used)
+        del_me(used,f)
     else:
         print("Nothing to be deleted in module!")
 
-def del_me(used):
+def del_me(used,f):
 
     user = input("Delete from module? y/n:")
     if (user == 'y'):
