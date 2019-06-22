@@ -4,16 +4,19 @@ from datetime import date,datetime
 today=date.today()
 
 dayObject = datetime.now()
-day = dayObject.strftime("%W")
+day = dayObject.strftime("%d")
 month = dayObject.strftime("%B")
 year = dayObject.strftime("%Y")
+x = dayObject.strftime("%x")
+X = dayObject.strftime("%X")
 
 class Job:
 	print("00p developed by ...")
-	def __init__(self,name,rollNumber,fingerID):
+	def __init__(self,name,rollNumber,fingerID,ph):
 		self.name=name
 		self.roll=rollNumber
 		self.id=fingerID
+		self.ph=ph
 		self.ref=db.reference('project/student/'+rollNumber)
 
 	def register_this(self):
@@ -24,8 +27,10 @@ class Job:
 			u'attendance':{month : {day:'Present'}},
 			u'updated_date':year+'-'+month+'-'+day,
 			u'register_date_detail':str(dayObject),
+			u'register_date_short': str(x +"-"+ X),
 			u'roll':self.roll,
-			u'fingerID':self.id
+			u'fingerID':self.id,
+			u'phone':self.ph
 		})
 		except Exception as e:
 			print(e)

@@ -50,7 +50,9 @@ def p__init():
 		_s("Processing for {0}".format(name))
 		roll = input("Enter Roll(eg:meec1): ")
 		_s("Roll number is :{0}".format(roll))
-		user = utils.Job(name,roll,None)
+		ph = input("Enter Phone Number: ")
+		_s("Phone Number is:{0}".format(ph))
+		user = utils.Job(name,roll,None,ph)
 		if user.check_user():
 			f = get_finger()
 			if (f.compareCharacteristics()==0):
@@ -62,7 +64,7 @@ def p__init():
 				fingerID = str(f.storeTemplate())
 				_s("Enrolled Successfully to fingerprint module")
 				print("Enrolled Successfully to fingerprint module, at Position: "+ fingerID)
-				user = utils.Job(name,roll,fingerID)
+				user = utils.Job(name,roll,fingerID,ph)
 
 				try:
 					user.register_this()
