@@ -108,3 +108,5 @@ firebase/__pycache__
 oled/__pycache__
 dev/__pycache__
 user.log
+
+firebase/s_key.json.*
