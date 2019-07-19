@@ -64,7 +64,7 @@ def p__init():
 			_s(user+"                  Accurancy Score: "+str(accu))
 			time.sleep(2)
 			_s("Updating in database ... " + user)
-			utils.Job(None,user,None).update_this()
+			utils.Job(None,user,None,None).update_this()
 			print("Developed by Thazin Phyu")
 			_s("Developed by Thazin Phyu")
 			time.sleep(2)
