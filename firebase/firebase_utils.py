@@ -9,6 +9,7 @@ month = dayObject.strftime("%B")
 year = dayObject.strftime("%Y")
 x = dayObject.strftime("%x")
 X = dayObject.strftime("%X")
+noon = dayObject.strftime("%p")
 
 class Job:
 	print("00p developed by ...")
@@ -24,7 +25,8 @@ class Job:
 		try:
 			self.ref.set({
 			u'name':self.name,
-			u'attendance':{month : {day:'Present'}},
+			#u'attendance':{month : {day:'Present'}},
+			u'attendance':{month : {day: {noon : "Present"}}},
 			u'updated_date':year+'-'+month+'-'+day,
 			u'register_date_detail':str(dayObject),
 			u'register_date_short': str(x +"-"+ X),
@@ -37,16 +39,20 @@ class Job:
 		print("OK. User {} added to database.".format(self.name))
 	
 	def update_this(self):
-		print('processing...')
+		print('utils: processing to firebase...')
 		try:
 			#e=(db.reference('project/student/'+self.roll+'/attendance').get())+1
 			e = db.reference('project/student/'+self.roll+'/attendance/'+month)
-			e.update({day:'Present'})
+			f = db.reference('project/student/'+self.roll+'/attendance/'+month+'/'+day+'/AM')
+			if(f.get()):
+				e.update({day: {"AM":"Present",noon:"Present"}})
+			else:
+				e.update({day: {noon:"Present"}})
 			self.ref.update({
 				#u'attendance':{month : {day:'Present'}},
 				u'updated_date':year+"-"+month+"-"+day
-				
 			})
+			print("utils: Done")
 		except Exception as e:
 			print(e)
 			
