@@ -52,7 +52,12 @@ def p__init():
 		_s("Roll number is :{0}".format(roll))
 		ph = input("Enter Phone Number: ")
 		_s("Phone Number is:{0}".format(ph))
-		user = utils.Job(name,roll,None,ph)
+		print("Name:{0} , Roll:{1} , Phone:{2}".format(name,roll,ph))
+		confirm = input("Correct ? y/n:")
+		if(confirm == 'y'):
+			user = utils.Job(name,roll,None,ph)
+		else:
+			exit(0)
 		if user.check_user():
 			f = get_finger()
 			if (f.compareCharacteristics()==0):
@@ -74,14 +79,14 @@ def p__init():
 					time.sleep(1)
 
 					trans.Job(user.roll,None).count_this()
-					
+
 					_s("Registered to local translator.")
 					print("Registered to local translator.")
 
 					time.sleep(1)
-					
+
 					#TODO to ensure that everything is update after that store in module.
-				
+
 				except Exception as e:
 					print(str(e))
 
