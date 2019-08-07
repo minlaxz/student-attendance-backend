@@ -46,7 +46,7 @@ class Job:
 			e = db.reference('project/student/'+self.roll+'/attendance/'+month)
 			f = db.reference('project/student/'+self.roll+'/attendance/'+month+'/'+day+'/AM')
 			g = db.reference('project/student/'+self.roll+'/attendance/counter')
-			g.update(g.get()+1)
+			g.set(g.get()+1)
 			if(f.get()):
 				e.update({day: {"AM":"Present",noon:"Present"}})
 			else:
