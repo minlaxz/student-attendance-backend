@@ -1,4 +1,5 @@
 #THIS IS BETA
+#This is Working
 from firebase_admin import db
 from datetime import date,datetime
 today=date.today()
@@ -26,7 +27,7 @@ class Job:
 			self.ref.set({
 			u'name':self.name,
 			#u'attendance':{month : {day:'Present'}},
-			u'attendance':{month : {day: {noon : "Present"}}},
+			u'attendance':{month : {day: {noon : "Present"}},{counter:1}},
 			u'updated_date':year+'-'+month+'-'+day,
 			u'register_date_detail':str(dayObject),
 			u'register_date_short': str(x +"-"+ X),
@@ -44,6 +45,8 @@ class Job:
 			#e=(db.reference('project/student/'+self.roll+'/attendance').get())+1
 			e = db.reference('project/student/'+self.roll+'/attendance/'+month)
 			f = db.reference('project/student/'+self.roll+'/attendance/'+month+'/'+day+'/AM')
+			g = db.reference('project/student/'+self.roll+'/attendance/counter')
+			g.update(g.get()+1)
 			if(f.get()):
 				e.update({day: {"AM":"Present",noon:"Present"}})
 			else:
