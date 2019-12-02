@@ -1,5 +1,3 @@
-#THIS IS BETA
-#This is Working
 from firebase_admin import db
 from datetime import date,datetime
 today=date.today()
@@ -13,14 +11,14 @@ X = dayObject.strftime("%X")
 noon = dayObject.strftime("%p")
 
 class Job:
-	print("00p developed by ...")
-	def __init__(self,name,rollNumber,fingerID,ph):
+	print("00p developed by .")
+	def __init__(self,name,rollNumber,fingerID,ph,check_att):
 		self.name=name
 		self.roll=rollNumber
 		self.id=fingerID
 		self.ph=ph
 		self.ref=db.reference('project/student/'+rollNumber)
-
+		self.check_att=check_att
 	def register_this(self):
 		print('processing...')
 		try:
@@ -66,3 +64,6 @@ class Job:
 		else:
 			print('User Exist in firebase database')
 			return False
+
+	def check_attendance(self):
+		pass

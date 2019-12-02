@@ -55,7 +55,7 @@ def p__init():
 		print("Name:{0} , Roll:{1} , Phone:{2}".format(name,roll,ph))
 		confirm = input("Correct ? y/n:")
 		if(confirm == 'y'):
-			user = utils.Job(name,roll,None,ph)
+			user = utils.Job(name,roll,None,ph,None)
 		else:
 			exit(0)
 		if user.check_user():
@@ -69,7 +69,7 @@ def p__init():
 				fingerID = str(f.storeTemplate())
 				_s("Enrolled Successfully to fingerprint module")
 				print("Enrolled Successfully to fingerprint module, at Position: "+ fingerID)
-				user = utils.Job(name,roll,fingerID,ph)
+				user = utils.Job(name,roll,fingerID,ph,None)
 
 				try:
 					user.register_this()

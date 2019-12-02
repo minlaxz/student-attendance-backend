@@ -46,10 +46,6 @@ def register_this(n,r,f):
 	print("OK. User {} added to database.".format(n))
 
 
-def g(f):
-	return f.get()
-
-
 def check_user(r):
 	ref = d.reference('project/student/' + r)
 	if g(ref) == None:
@@ -58,3 +54,11 @@ def check_user(r):
 		#register_this(n,r,f,ref)
 	else:
 		return False
+
+def check_attendance(r):
+	ref = d.reference('project/student/' + r +'/attendance/counter')
+	if (ref.get()/40) < 0.75:
+		return True
+	else:
+		return False
+
