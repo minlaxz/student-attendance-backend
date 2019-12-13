@@ -25,7 +25,7 @@ class Job:
 			self.ref.set({
 			u'name':self.name,
 			#u'attendance':{month : {day:'Present'}},
-			u'attendance':{month : {day: {noon : "Present"}},{counter:1}},
+			u'attendance':{month : {day: {noon : "Present"}},counter:1},
 			u'updated_date':year+'-'+month+'-'+day,
 			u'register_date_detail':str(dayObject),
 			u'register_date_short': str(x +"-"+ X),

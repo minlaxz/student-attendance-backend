@@ -1,3 +1,4 @@
+#! /usr/bin/python3
 """
 PyFingerprint
 Copyright (C) 2015 Bastian Raschke <bastian.raschke@posteo.de>

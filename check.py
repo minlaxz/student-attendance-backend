@@ -1,8 +1,9 @@
-#!/usr/local/bin/python3
+#! /usr/bin/python3
 from twil import sendSMS as s
 from firebase import fire_laxz as fire
 import yaml
 from firebase_admin import db as d
+from twilio.rest import Client
 
 auth = 0
 
@@ -27,16 +28,21 @@ def p__init():
         users=f.read()
     users=yaml.load(users)
     for i in users:
-        if check_attendance(i):
-            print(Under Attendance. Sending SMS ...)
-            ph = d.reference('project/student/'+i+'phone').get()
-            name = d.reference('project/student/'+i+'name').get()
-            roll = d.reference('project/student/'+i+'roll').get()
-            s.send(ph,name,roll)
+        if fire.check_attendance(i):
+            print('Under Attendance. Sending SMS ...')
+            ph = d.reference('project/student/'+i+'/phone').get()
+            name = d.reference('project/student/'+i+'/name').get()
+            roll = d.reference('project/student/'+i+'/roll').get()
+            print(name, roll)
+            usr = s.Job(ph,name,roll)
+            sid = usr.send()
+            if(sid):
+                print("Success")
+            else:
+                print("MSG Error")
         else:
             pass
 
 
 if __name__ =="__main__":
-	while True:
-		p_init()
+	p_init()
