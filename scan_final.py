@@ -80,17 +80,18 @@ def p__init():
 		else:
 			print("[RESULT] :Found template at position : " + str(positionNumber))
 			print("[RESULT] :The accurancy score is: "+ str(accu))
-			timecheck = utils.Job(None,None,None,None,None).timecheck()
-			if (timecheck > 0):
+			user=trans.Job(None,positionNumber).who()
+			_s(user+"                  Accurancy Score: "+str(accu))
+			time.sleep(2)
+			u = utils.Job(None,user,None,None,None)
+			timecheck = u.timecheck()
+			if ( timecheck > 0):
 				print('Scan Pipeline is initiated for session {}'.format(timecheck))
 			else:
 				raise Exception (reg_str)
 
-			user=trans.Job(None,positionNumber).who()
-			_s(user+"                  Accurancy Score: "+str(accu))
-			time.sleep(2)
 			_s("Updating in database ... " + user)
-			utils.Job(None,user,None,None,None).update_this()
+			u.update_this()
 			print("Developed by Thazin Phyu")
 			_s("Developed by Thazin Phyu")
 			time.sleep(2)
