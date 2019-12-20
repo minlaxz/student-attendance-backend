@@ -1,6 +1,6 @@
 # Raspberry Pi Student Attendance System.
 
-__[ClientSideProject:] (https://github.com/minlaxz/firebase_client)__ (Under maintainance.)
+__[ClientSideProject:] (https://github.com/minlaxz/firebase_client)__
 
 ### __Requirements :)__
 ## Links
