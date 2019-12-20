@@ -2,9 +2,10 @@
 PyFingerprint
 Copyright (C) 2015 Bastian Raschke <bastian.raschke@posteo.de>
 
-oop and functional coded by <laxz> : m.me/minlaxz,github.com/minlaxz
+oop and functional coded by <laxz> :github.com/minlaxz
 All rights reserved.
 """
+
 #REGISTER
 from firebase import firebase_utils as utils
 from firebase import fire_laxz as fire
@@ -13,6 +14,24 @@ import translator as trans
 import time
 import sys
 auth = 0
+
+reg_str = '''
+#######################################################
+#           Registration time is INCORRECT            #
+#                                                     #
+# Time is only valid for officially defined routines. #
+#                                                     #
+# Eg: for -                                           #
+#                                                     #
+#   Session 1 valid between 9:00 AM and 9:50 AM UTC   #
+#   Session 2 valid between 9:55 AM and 10:45 AM UTC  #
+#   Session 3 valid between 10:50 AM and 11:40 AM UTC #
+#   ---break time----                                 #
+#   Session 4 valid between 12:30 PM and 1:20 PM UTC  #
+#   Session 5 valid between 1:25 PM and 2:15 PM UTC   #
+#   Session 6 valid between 2:20 PM and 3:10 PM UTC   #
+#######################################################
+'''
 
 def p_init():
 	import conn
@@ -59,7 +78,13 @@ def p__init():
 		else:
 			exit(0)
 		if user.check_user():
-			f = get_finger()
+			timecheck = user.timecheck()
+			if (timecheck > 0):
+				print('Register Pipeline is initiated for session {}'.format(timecheck))
+				f = get_finger()
+			else:
+				raise Exception (reg_str)
+
 			if (f.compareCharacteristics()==0):
 				_s("Finigerprints do not match! resetting ...")
 				print("Don not match! try again.")

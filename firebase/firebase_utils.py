@@ -8,9 +8,10 @@ year = dayObject.strftime("%Y")
 x = dayObject.strftime("%x")
 X = dayObject.strftime("%X")
 noon = dayObject.strftime("%p")
+hm = int(dayObject.strftime('%H%M'))
 
 class Job:
-	print("00p developed by .")
+	print("utils[Job Class]: 00p developed by .")
 	def __init__(self,name,rollNumber,fingerID,ph,check_att):
 		self.name=name
 		self.roll=rollNumber
@@ -18,6 +19,24 @@ class Job:
 		self.ph=ph
 		self.ref=db.reference('project/student/'+rollNumber)
 		self.check_att=check_att
+
+	def timecheck(self):
+		if (hm > 900 and hm < 950):
+			return 1
+		elif (hm > 955 and hm < 1045):
+			return 2
+		elif (hm > 1050 and hm < 1140):
+			return 3
+		elif (hm > 1230 and hm < 1320):
+			return 4
+		elif (hm > 1325 and hm < 1415):
+			return 5
+		elif (hm > 1420 and hm < 1510):
+			return 6
+		else:
+			return -1
+
+
 	def register_this(self):
 		print('utils[register]: processing to firebase...')
 		try:
