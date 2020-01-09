@@ -42,7 +42,7 @@ class Job:
 		try:
 			self.ref.set({
 			u'name':self.name,
-			u'attendance':{month : {day: {noon : dayObject.strftime("%d/%b/%Y,%X")}},counter:1},
+			u'attendance':{month : {day: {noon : dayObject.strftime("%d/%b/%Y,%X")}},'counter':1},
 			u'updated_date':dayObject.strftime("%c"),
 			u'register_date_detail':dayObject.strftime("%c"),
 			u'roll':self.roll,
@@ -80,5 +80,5 @@ class Job:
 			print('User Exist in firebase database')
 			return False
 
-	def check_attendance(self):
+	def register_handler(self):
 		pass

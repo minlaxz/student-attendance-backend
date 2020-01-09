@@ -1,3 +1,5 @@
 {
-    "python.pythonPath": "/home/minlaxz/anaconda3/envs/raspi_meec/bin/python"
+    "python.pythonPath": "C:\\Users\\laxz-mswin\\Miniconda3\\envs\\me-pj\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
