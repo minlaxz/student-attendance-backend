@@ -7,13 +7,12 @@ All rights reserved.
 """
 
 # REGISTER
+
 from firebase import firebase_utils as utils
-from firebase import fire_laxz as fire
+from firebase import firebase_cred
 import oled.oled_device as oled
 import translator as trans
-import time
-import sys
-auth = 0
+import time,sys,conn
 
 reg_str = '''
 #######################################################
@@ -34,24 +33,13 @@ reg_str = '''
 '''
 
 
-def p_init():
-    import conn
-    if not conn:
-        print("no internet")
-        exit(1)
-    if auth == 0:
-        auth_laxz()
-    else:
-        pass
-    p__init()
+def main():
+	if conn.check():
+		master()
+	else:
+		exit(1)
 
-
-def auth_laxz():
-    from firebase import firebase_cred
-    auth = 1
-
-
-def p__init():
+def master():
     from pyfingerprint.pyfingerprint import PyFingerprint as pfp
     try:
         global fp
@@ -70,14 +58,17 @@ def p__init():
     try:
         name = input("Enter Name: ")
         _s("Processing for {0}".format(name))
+
         roll = input("Enter Roll(eg:meec1): ")
         _s("Roll number is :{0}".format(roll))
-        ph = input("Enter Phone Number: ")
-        _s("Phone Number is:{0}".format(ph))
-        print("Name:{0} , Roll:{1} , Phone:{2}".format(name, roll, ph))
+
+        phone = input("Enter Phone Number: ")
+        _s("Phone Number is:{0}".format(phone))
+
+        print("Name:{0} , Roll:{1} , Phone:{2}".format(name, roll, phone))
         confirm = input("Correct ? y/n:")
         if(confirm == 'y'):
-            user = utils.Job(name, roll, None, ph, None)
+            user = utils.Job(name=name, rollNumber=roll, fingerID=None, phone=phone)
         else:
             exit(0)
         if user.check_user():
@@ -91,17 +82,17 @@ def p__init():
             if (f.compareCharacteristics() == 0):
                 _s("Finigerprints do not match! resetting ...")
                 print("Don not match! try again.")
-                time.sleep(2)
+                time.sleep(1)
             else:
                 f.createTemplate()
                 fingerID = str(f.storeTemplate())
                 _s("Enrolled Successfully to fingerprint module")
                 print(
                     "Enrolled Successfully to fingerprint module, at Position: " + fingerID)
-                user = utils.Job(name, roll, fingerID, ph, None)
+                user = utils.Job(name = name, rollNumber = roll, fingerID = fingerID, phone=phone)
 
                 try:
-                    user.register_this()
+                    user.register_handler()
                     _s("Registered to Firebase")
                     print("Registered to Firebase")
 
@@ -125,10 +116,10 @@ def p__init():
             _s("User found : Error")
 
     except KeyboardInterrupt:
-        #raise Exception("User stopped the program")
+        # raise Exception("User stopped the program")
         print("\n user STOPPED the program")
         _s("user stopped.")
-        #del user
+        # del user
         time.sleep(1)
         exit(0)
     except Exception as e:
@@ -171,4 +162,4 @@ def _s(m):
 
 if __name__ == "__main__":
     while True:
-        p_init()
+        main()

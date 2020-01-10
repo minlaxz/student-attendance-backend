@@ -11,7 +11,7 @@ import translator as trans
 import oled.oled_device as oled
 from firebase import firebase_utils as utils
 import time
-auth = 0
+import conn
 
 reg_str = '''
 #######################################################
@@ -32,27 +32,14 @@ reg_str = '''
 '''
 
 
-def p_init():
-    import conn
-    if not conn:
-        print("no internet!")
-        exit(1)
-    if auth == 0:
-        auth_laxz()
+def main():
+    if conn.check():
+        master()
     else:
-        pass
-    p__init()
+        exit(1)
 
 
-def auth_laxz():
-    try:
-        import firebase.firebase_cred
-        auth = 1
-    except Exception as e:
-        print("Exception Message: "+str(e))
-
-
-def p__init():
+def master():
     from pyfingerprint.pyfingerprint import PyFingerprint as pfp
     import firebase.fire_laxz as fire
     try:
@@ -86,21 +73,26 @@ def p__init():
         else:
             print("[RESULT] :Found template at position : " + str(positionNumber))
             print("[RESULT] :The accurancy score is: " + str(accu))
-            user = trans.Job(None, positionNumber).who()
-            _s(user+"                  Accurancy Score: "+str(accu))
+
+            roll = trans.Job(None, positionNumber).who()
+            _s(roll+"                  Accurancy Score: "+str(accu))
+
             time.sleep(2)
-            u = utils.Job(None, user, None, None, None)
-            timecheck = u.timecheck()
+            user = utils.Job(name=None, rollNumber=roll,
+                             fingerID=None, phone=None)
+
+            timecheck = user.timecheck()
             if (timecheck > 0):
                 print('Scan Pipeline is initiated for session {}'.format(timecheck))
             else:
                 raise Exception(reg_str)
 
-            _s("Updating in database ... " + user)
-            u.update_this()
+            _s("Updating in database ... " + roll)
+            user.update_handler()
             print("Developed by Thazin Phyu")
             _s("Developed by Thazin Phyu")
             time.sleep(2)
+
     except KeyboardInterrupt:
         print("[INFO] :ABRODED by user .")
         exit(0)
@@ -116,4 +108,4 @@ def _s(m):
 
 if __name__ == "__main__":
     while True:
-        p_init()
+        main()

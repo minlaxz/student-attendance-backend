@@ -14,13 +14,12 @@ hm = int(dayObject.strftime('%H%M'))
 class Job:
     print("utils[Job Class]: 00p developed by .")
 
-    def __init__(self, name, rollNumber, fingerID, ph, check_att):
+    def __init__(self, name, rollNumber, fingerID, phone):
         self.name = name
         self.roll = rollNumber
         self.id = fingerID
-        self.ph = ph
+        self.ph = phone
         self.ref = db.reference('project/student/'+rollNumber)
-        self.check_att = check_att
 
     def timecheck(self):
         if (hm > 900 and hm < 950):
