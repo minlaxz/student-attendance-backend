@@ -87,6 +87,7 @@ class Job:
         print('utils[register]: processing to firebase...')
         timesession = self.timecheck()
         print('utils[register]: time result ', timesession)
+
         try:
             self.ref.set({
                 u'name': self.name,
@@ -103,6 +104,22 @@ class Job:
                 u'fingerID': self.id,
                 u'phone': self.ph
             })
+            if(timesession > 1):
+                for i in range(1, timesession-1, 1):
+                    self.ref.update({
+                        u'attendance': {
+                            month: {
+                                day: {
+                                    i: 'No Record.'
+                                }
+                            }
+                        }
+                    })
+
+            elif(timesession < 1):
+                print('[utils] > Time Error.')
+                raise Exception
+
         except Exception as e:
             print(e)
         print("utils[register]: OK. User {} added to database.".format(self.name))
@@ -111,23 +128,41 @@ class Job:
         print('utils[update]: processing to firebase...')
         timesession = self.timecheck()
         try:
-            g = db.reference('project/student/'+self.roll + '/attendance/counter')
+            g = db.reference('project/student/'+self.roll +
+                             '/attendance/counter')
             g.set(g.get()+1)
 
             e = db.reference('project/student/'+self.roll+'/attendance/'+month)
 
-            f = db.reference('project/student/'+self.roll +'/attendance/'+month+'/'+day+'/'+timesession)
-			# https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
+            f = db.reference('project/student/'+self.roll +
+                             '/attendance/'+month+'/'+day+'/'+timesession)
+            # https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
             if (not f.get()):
-                e.update(
-					{
-						day: {
-							timesession: dayObject.strftime("%d/%b/%Y,  %X")
-							}
-					}
-				)
+                e.update({
+                    day: {
+                        timesession: dayObject.strftime("%d/%b/%Y,  %X")
+                    }
+                })
             else:
-	            pass
+                pass
+
+            timelists = [1, 2, 3, 4, 5, 6]
+#2 .. 5
+# .. 4
+#3 ..
+            h = db.reference('project/student/'+self.roll +
+                             '/attendance/'+month+'/'+day+'/')
+
+            for timelist in timelists:
+                if(timelist < timesession):
+                    if(h.child(str(timelist)).get()):
+                        pass
+                    else:
+                        h.update({
+                            timelist:'No Record'
+                        })
+                else:
+                    pass
 
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
