@@ -41,7 +41,7 @@ def main():
 
 def master():
     from pyfingerprint.pyfingerprint import PyFingerprint as pfp
-    import firebase.fire_laxz as fire
+    from firebase import firebase_cred
     try:
         f = pfp('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
         if(f.verifyPassword() == False):
