@@ -135,7 +135,7 @@ class Job:
             e = db.reference('project/student/'+self.roll+'/attendance/'+month)
 
             f = db.reference('project/student/'+self.roll +
-                             '/attendance/'+month+'/'+day+'/'+timesession)
+                             '/attendance/'+month+'/'+day+'/'+str(timesession))
             # https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
             if (not f.get()):
                 e.update({
