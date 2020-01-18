@@ -37,44 +37,6 @@ class Job:
         else:
             return -1
 
-    def register_this(self):
-        print('utils[register]: processing to firebase...')
-        try:
-            self.ref.set({
-                u'name': self.name,
-                u'attendance': {month: {day: {noon: dayObject.strftime("%d/%b/%Y,%X")}}, 'counter': 1},
-                u'updated_date': dayObject.strftime("%c"),
-                u'register_date_detail': dayObject.strftime("%c"),
-                u'roll': self.roll,
-                u'fingerID': self.id,
-                u'phone': self.ph
-            })
-        except Exception as e:
-            print(e)
-        print("utils[register]: OK. User {} added to database.".format(self.name))
-
-    def update_this(self):
-        print('utils[update]: processing to firebase...')
-        try:
-            e = db.reference('project/student/'+self.roll+'/attendance/'+month)
-            f = db.reference('project/student/'+self.roll +
-                             '/attendance/'+month+'/'+day+'/AM')
-            g = db.reference('project/student/'+self.roll +
-                             '/attendance/counter')
-            g.set(g.get()+1)
-            if(f.get()):
-                e.update(
-                    {day: {"AM": f.get(), noon: dayObject.strftime("%d/%b/%Y,%X")}})
-            else:
-                e.update({day: {noon: dayObject.strftime("%d/%b/%Y,%X")}})
-            self.ref.update({
-                u'updated_date': dayObject.strftime("%c")
-            })
-            print("utils: Done")
-        except Exception as e:
-            print(e)
-        print('utils[update]: OK. User {} updated to database'.format(self.name))
-
     def check_user(self):
         if self.ref.get() == None:
             print('Registering ...')
@@ -110,7 +72,7 @@ class Job:
                         u'attendance': {
                             month: {
                                 day: {
-                                    i: 'No Record.'
+                                    i: 'No Record. (Auto Update.)'
                                 }
                             }
                         }
@@ -122,44 +84,47 @@ class Job:
 
         except Exception as e:
             print(e)
-        print("utils[register]: OK. User {} added to database.".format(self.name))
+        print("utils[register]: user added to database.")
 
     def update_handler(self):
         print('utils[update]: processing to firebase...')
         timesession = self.timecheck()
+        print('utils[update]: time session is', timesession)
         try:
             g = db.reference('project/student/'+self.roll +
                              '/attendance/counter')
             g.set(g.get()+1)
+            print('utils[update]: counter updated.')
 
             e = db.reference('project/student/'+self.roll+'/attendance/'+month)
 
-            f = db.reference('project/student/'+self.roll +
-                             '/attendance/'+month+'/'+day+'/'+str(timesession))
             # https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
-            if (not f.get()):
+            if (not e.child(day).child(str(timesession)).get()):
+                print('utils[update]: updating for current time session.')
                 e.update({
                     day: {
                         timesession: dayObject.strftime("%d/%b/%Y,  %X")
                     }
                 })
+                print('utils[update]: updated.')
             else:
+                print('utils[update]: already updated.')
                 pass
 
             timelists = [1, 2, 3, 4, 5, 6]
-#2 .. 5
+# 2 .. 5
 # .. 4
-#3 ..
-            h = db.reference('project/student/'+self.roll +
-                             '/attendance/'+month+'/'+day+'/')
-
+# 3 ..
+            h = e.child(day)
             for timelist in timelists:
                 if(timelist < timesession):
                     if(h.child(str(timelist)).get()):
+                        print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
                         pass
                     else:
+                        print('utils[update]: session {0} is empty. Auto updating.'.format(timelist))
                         h.update({
-                            timelist:'No Record'
+                            timelist: 'No Record (Auto Update.)'
                         })
                 else:
                     pass
@@ -167,8 +132,49 @@ class Job:
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
             })
-            print("utils: Done")
+            print("utils[update]: All Done")
 
         except Exception as e:
             print(e)
         print('utils[update]: OK. User {} updated to database'.format(self.name))
+
+
+# DEPRICATED
+    # def register_this(self):
+    #     print('utils[register]: processing to firebase...')
+    #     try:
+    #         self.ref.set({
+    #             u'name': self.name,
+    #             u'attendance': {month: {day: {noon: dayObject.strftime("%d/%b/%Y,%X")}}, 'counter': 1},
+    #             u'updated_date': dayObject.strftime("%c"),
+    #             u'register_date_detail': dayObject.strftime("%c"),
+    #             u'roll': self.roll,
+    #             u'fingerID': self.id,
+    #             u'phone': self.ph
+    #         })
+    #     except Exception as e:
+    #         print(e)
+    #     print("utils[register]: OK. User {} added to database.".format(self.name))
+
+    # def update_this(self):
+    #     print('utils[update]: processing to firebase...')
+    #     try:
+    #         e = db.reference('project/student/'+self.roll+'/attendance/'+month)
+    #         f = db.reference('project/student/'+self.roll +
+    #                          '/attendance/'+month+'/'+day+'/AM')
+    #         g = db.reference('project/student/'+self.roll +
+    #                          '/attendance/counter')
+    #         g.set(g.get()+1)
+    #         if(f.get()):
+    #             e.update(
+    #                 {day: {"AM": f.get(), noon: dayObject.strftime("%d/%b/%Y,%X")}})
+    #         else:
+    #             e.update({day: {noon: dayObject.strftime("%d/%b/%Y,%X")}})
+    #         self.ref.update({
+    #             u'updated_date': dayObject.strftime("%c")
+    #         })
+    #         print("utils: Done")
+    #     except Exception as e:
+    #         print(e)
+    #     print('utils[update]: OK. User {} updated to database'.format(self.name))
+
