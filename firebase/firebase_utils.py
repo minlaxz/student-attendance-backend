@@ -10,6 +10,7 @@ X = dayObject.strftime("%X")
 noon = dayObject.strftime("%p")
 hm = int(dayObject.strftime('%H%M'))
 
+time_lock_bypass = False
 
 class Job:
     print("utils[Job Class]: 00p developed by .")
@@ -49,7 +50,9 @@ class Job:
         print('utils[register]: processing to firebase...')
         timesession = self.timecheck()
         print('utils[register]: time result ', timesession)
-
+        if(time_lock_bypass):
+            timesession = 9
+            print('utils[register]: time result (sos)', timesession)
         try:
             self.ref.set({
                 u'name': self.name,
