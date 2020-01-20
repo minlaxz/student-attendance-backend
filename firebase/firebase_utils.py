@@ -112,19 +112,17 @@ class Job:
                 pass
 
             timelists = [1, 2, 3, 4, 5, 6]
-# 2 .. 5
-# .. 4
-# 3 ..
             h = e.child(day)
             for timelist in timelists:
                 if(timelist < timesession):
-                    if(h.child(str(timelist)).get()):
-                        print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
-                    else:
+                    if(h.child(str(timelist)).get() == None):
                         print('utils[update]: session {0} is empty. Auto updating.'.format(timelist))
                         h.update({
                             timelist: 'No Record (Auto Update.)'
-                        })
+                        })  
+                    else:
+                        print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
+                        
 
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
