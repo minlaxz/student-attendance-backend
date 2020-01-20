@@ -14,7 +14,7 @@ hm = int(dayObject.strftime('%H%M'))
 class Job:
     print("utils[Job Class]: 00p developed by .")
 
-    def __init__(self, name, rollNumber, fingerID, phone):
+    def __init__(self, name = None , rollNumber =None , fingerID= None, phone = None):
         self.name = name
         self.roll = rollNumber
         self.id = fingerID
@@ -120,14 +120,11 @@ class Job:
                 if(timelist < timesession):
                     if(h.child(str(timelist)).get()):
                         print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
-                        pass
                     else:
                         print('utils[update]: session {0} is empty. Auto updating.'.format(timelist))
                         h.update({
                             timelist: 'No Record (Auto Update.)'
                         })
-                else:
-                    pass
 
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
@@ -138,7 +135,21 @@ class Job:
             print(e)
         print('utils[update]: OK. User {} updated to database'.format(self.name))
 
-
+def timecheck():
+    if (hm > 900 and hm < 950):
+        return 1
+    elif (hm > 955 and hm < 1045):
+        return 2
+    elif (hm > 1050 and hm < 1140):
+        return 3
+    elif (hm > 1230 and hm < 1320):
+        return 4
+    elif (hm > 1325 and hm < 1415):
+        return 5
+    elif (hm > 1420 and hm < 1510):
+        return 6
+    else:
+        return -1
 # DEPRICATED
     # def register_this(self):
     #     print('utils[register]: processing to firebase...')

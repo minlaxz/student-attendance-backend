@@ -11,6 +11,7 @@ class Job:
 		users.append(self.roll)
 		with open('user.log','w') as f:
 			f.write(str(users))
+		print("Registered to local translator.")
 
 	def who(self):
 		import yaml
