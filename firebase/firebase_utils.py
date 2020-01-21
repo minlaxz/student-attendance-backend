@@ -1,6 +1,6 @@
 from firebase_admin import db
 from datetime import datetime
-from mod import printall
+
 time_lock_bypass = False
 
 dayObject = datetime.now()
