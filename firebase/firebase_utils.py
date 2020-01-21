@@ -93,6 +93,9 @@ class Job:
         print('utils[update]: processing to firebase...')
         timesession = self.timecheck()
         print('utils[update]: time session is', timesession)
+        if(time_lock_bypass):
+            timesession = 9
+            print('utils[register]: time result (sos)', timesession)
         try:
             g = db.reference('project/student/'+self.roll +
                              '/attendance/counter')
