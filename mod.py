@@ -2,8 +2,9 @@ import translator as trans
 import oled.oled_device as oled
 from firebase import firebase_utils as utils
 from pyfingerprint.pyfingerprint import PyFingerprint as pfp
-import time, conn
-
+import time
+import conn
+import logging
 
 time_lock_bypass = False
 
@@ -25,12 +26,23 @@ reg_str = '''
 #######################################################
 '''
 
+
 def printall(m):
+    logger(m)
     print(m)
     oled.show_text_sm(m)
 
+
+def logger(logtext):
+    log = "log.log"
+    logging.basicConfig(filename=log, level=logging.DEBUG,
+                        format='%(asctime)s %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
+    logging.info(logtext)
+
+
 def s(t):
     time.sleep(t)
+
 
 def out(flag):
     if flag:

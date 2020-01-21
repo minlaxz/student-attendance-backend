@@ -1,6 +1,6 @@
 from firebase_admin import db
 from datetime import datetime
-from mod import time_lock_bypass
+from mod import time_lock_bypass, printall
 
 dayObject = datetime.now()
 day = dayObject.strftime("%d")
@@ -15,7 +15,7 @@ hm = int(dayObject.strftime('%H%M'))
 class Job:
     print("utils[Job Class]: 00p developed by .")
 
-    def __init__(self, name = None , rollNumber =None , fingerID= None, phone = None):
+    def __init__(self, name=None, rollNumber=None, fingerID=None, phone=None):
         self.name = name
         self.roll = rollNumber
         self.id = fingerID
@@ -122,13 +122,14 @@ class Job:
             h = e.child(day)
             for timelist in timelists:
                 if(h.child(str(timelist)).get() == None):
-                    print('utils[update]: session {0} is empty. Auto updating.'.format(timelist))
+                    print(
+                        'utils[update]: session {0} is empty. Auto updating.'.format(timelist))
                     h.update({
                         timelist: 'No Record'
-                    })  
+                    })
                 else:
-                    print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
-                        
+                    print(
+                        'utils[update]: session {0} is not empty. Bypassing'.format(timelist))
 
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
@@ -138,6 +139,7 @@ class Job:
         except Exception as e:
             print(e)
         print('utils[update]: OK. User {} updated to database'.format(self.name))
+
 
 def timecheck():
     if (hm > 900 and hm < 950):
@@ -192,4 +194,3 @@ def timecheck():
     #     except Exception as e:
     #         print(e)
     #     print('utils[update]: OK. User {} updated to database'.format(self.name))
-
