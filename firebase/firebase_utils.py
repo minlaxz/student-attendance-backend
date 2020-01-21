@@ -1,5 +1,6 @@
 from firebase_admin import db
 from datetime import datetime
+from mod import time_lock_bypass
 
 dayObject = datetime.now()
 day = dayObject.strftime("%d")
@@ -10,7 +11,6 @@ X = dayObject.strftime("%X")
 noon = dayObject.strftime("%p")
 hm = int(dayObject.strftime('%H%M'))
 
-time_lock_bypass = False
 
 class Job:
     print("utils[Job Class]: 00p developed by .")
@@ -75,7 +75,7 @@ class Job:
                         u'attendance': {
                             month: {
                                 day: {
-                                    i: 'No Record. (Auto Update.)'
+                                    i: 'N/A.'
                                 }
                             }
                         }
@@ -105,7 +105,8 @@ class Job:
             e = db.reference('project/student/'+self.roll+'/attendance/'+month)
 
             # https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
-            if (not e.child(day).child(str(timesession)).get()):
+            current = e.child(day).child(str(timesession)).get()
+            if (current == None or current == 'No Record'):
                 print('utils[update]: updating for current time session.')
                 e.update({
                     day: {
@@ -120,14 +121,13 @@ class Job:
             timelists = [1, 2, 3, 4, 5, 6]
             h = e.child(day)
             for timelist in timelists:
-                if(timelist < timesession):
-                    if(h.child(str(timelist)).get() == None):
-                        print('utils[update]: session {0} is empty. Auto updating.'.format(timelist))
-                        h.update({
-                            timelist: 'No Record (Auto Update.)'
-                        })  
-                    else:
-                        print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
+                if(h.child(str(timelist)).get() == None):
+                    print('utils[update]: session {0} is empty. Auto updating.'.format(timelist))
+                    h.update({
+                        timelist: 'No Record'
+                    })  
+                else:
+                    print('utils[update]: session {0} is not empty. Bypassing'.format(timelist))
                         
 
             self.ref.update({
