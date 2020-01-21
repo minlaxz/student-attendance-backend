@@ -1,6 +1,7 @@
 from firebase_admin import db
 from datetime import datetime
-from mod import time_lock_bypass, printall
+from mod import printall
+time_lock_bypass = False
 
 dayObject = datetime.now()
 day = dayObject.strftime("%d")
