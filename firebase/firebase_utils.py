@@ -21,7 +21,7 @@ class Job:
         self.roll = rollNumber
         self.id = fingerID
         self.ph = phone
-        self.ref = db.reference('project/student/'+rollNumber)
+        self.ref = db.reference('project/student/'+rollNumber+'/')
 
     def timecheck(self):
         if (hm > 900 and hm < 950):
@@ -98,39 +98,34 @@ class Job:
             timesession = 9
             print('utils[register]: time result (sos)', timesession)
         try:
-            g = db.reference('project/student/'+self.roll +
-                             '/attendance/counter')
-            g.set(g.get()+1)
-            print('utils[update]: counter updated.')
-
-            e = db.reference('project/student/'+self.roll+'/attendance/'+month)
+            f = self.ref.child('attendance/counter')
+            f.set(f.get()+1)
+            print('utils[update]: major counter updated.')
 
             # https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
+            e = self.ref.child('attendance/'+month)
             current = e.child(day).child(str(timesession)).get()
-            if (current == None or current == 'No Record'):
-                print('utils[update]: updating for current time session.')
+            if (current == 'No Record.' or current == None):
+                print('utils[update]:CURRENT VARIABLE : ', current)
                 e.update({
                     day: {
                         timesession: dayObject.strftime("%d/%b/%Y,  %X")
                     }
                 })
-                print('utils[update]: updated.')
+                print('utils[update]: update done.')
             else:
                 print('utils[update]: already updated.')
-                pass
 
-            timelists = [1, 2, 3, 4, 5, 6]
             h = e.child(day)
-            for timelist in timelists:
-                if(h.child(str(timelist)).get() == None):
-                    print(
-                        'utils[update]: session {0} is empty. Auto updating.'.format(timelist))
+            timelists = [1, 2, 3, 4, 5, 6]
+            for i in timelists:
+                print('For timesession > {0}'.format(str(i)))
+                if(h.child(str(i)).get() == 'No Record.' or h.child(str(i)).get() == None):
                     h.update({
-                        timelist: 'No Record'
+                        i: 'No Record.'
                     })
                 else:
-                    print(
-                        'utils[update]: session {0} is not empty. Bypassing'.format(timelist))
+                    pass
 
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
