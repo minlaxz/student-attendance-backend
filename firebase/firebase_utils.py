@@ -111,6 +111,9 @@ class Job:
                     self.ref.child('attendance/'+month+'/'+day+'/').update({
                         i: 'No Record.'
                     })
+                    self.ref.child('attendance/'+month+'/'+day+'/').update({
+                        timesession: dayObject.strftime("%d/%b/%Y,  %X")
+                    })
             else:
                 print('utils[update]: This user is Non-empty for today.')
                 self.ref.child('attendance/'+month+'/'+day+'/').update({
