@@ -106,7 +106,7 @@ class Job:
             e = self.ref.child('attendance/'+month)
             current = e.child(day).child(str(timesession)).get()
             if (current == 'No Record.' or current == None):
-                print('utils[update]:CURRENT VARIABLE : ', current)
+                print('utils[update]:CURRENT VAL_1 : ', current)
                 e.update({
                     day: {
                         timesession: dayObject.strftime("%d/%b/%Y,  %X")
@@ -120,7 +120,9 @@ class Job:
             timelists = [1, 2, 3, 4, 5, 6]
             for i in timelists:
                 print('For timesession > {0}'.format(str(i)))
-                if(h.child(str(i)).get() == 'No Record.' or h.child(str(i)).get() == None):
+                current = h.child(str(i)).get()
+                print('CURRENT VAL_2 : ' , current)
+                if(current == 'No Record.' or current == None):
                     h.update({
                         i: 'No Record.'
                     })
