@@ -103,31 +103,20 @@ class Job:
             print('utils[update]: major counter updated.')
 
             # https://raspberrypi75955.firebaseio.com/project/student/meec1/attendance/January/09/1
-            e = self.ref.child('attendance/'+month)
-            current = e.child(day).child(str(timesession)).get()
-            if (current == 'No Record.' or current == None):
-                print('utils[update]:CURRENT VAL_1 : ', current)
-                e.update({
-                    day: {
-                        timesession: dayObject.strftime("%d/%b/%Y,  %X")
-                    }
-                })
-                print('utils[update]: update done.')
-            else:
-                print('utils[update]: already updated.')
 
-            h = e.child(day)
-            timelists = [1, 2, 3, 4, 5, 6]
-            for i in timelists:
-                print('For timesession > {0}'.format(str(i)))
-                current = h.child(str(i)).get()
-                print('CURRENT VAL_2 : ' , current)
-                if(current == 'No Record.' or current == None):
-                    h.update({
+            if(self.ref.child('attendance/'+month+'/'+day+'/').get() == None):
+                print('utils[update]: This is first scan of your, for today.')
+                for i in range(1, 7, 1):
+                    print('For timesession > {0}'.format(str(i)))
+                    self.ref.child('attendance/'+month+'/'+day+'/').update({
                         i: 'No Record.'
                     })
-                else:
-                    pass
+            else:
+                print('utils[update]: This user is Non-empty for today.')
+                self.ref.child('attendance/'+month+'/'+day+'/').update({
+                    timesession: dayObject.strftime("%d/%b/%Y,  %X")
+                })
+                print('utils[update]: update done.')
 
             self.ref.update({
                 u'updated_date': dayObject.strftime("%c")
