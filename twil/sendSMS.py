@@ -6,8 +6,8 @@ class Job:
 
     def send(self):
         from twilio.rest import Client
-        account_sid = "AC8e7bc4b73556d29d34b061238467bc66"
-        auth_token = "58f42bc8cb3b852aff386b924d2d7aa0"
+        account_sid = "ACad597acdc047697847ac3d71c3bd558f"
+        auth_token = "d1475cd82a1e0ae7f5d795669ec3fef4a"
         client = Client(account_sid, auth_token)  #auth
         message = client.messages.create(
             to="+95"+str(self.ph[1:len(self.ph)]),
