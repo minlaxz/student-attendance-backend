@@ -1,40 +1,42 @@
 #! /usr/bin/python3
-from twil import sendSMS as s
-from firebase import fire_laxz as fire
-import yaml
-from firebase_admin import db as d
+from twil import sendSMS
+from firebase_admin import db
 from twilio.rest import Client
+from mod import *
+import yaml
+with open("info.txt") as f:
+    info = f.readlines()
+with open("error.txt") as f:
+    error = f.readlines()
 
-auth = 0
-
-def p_init():
-    import conn
-    if not conn:
-        print("no internet!")
-        exit(1)
-    if auth == 0:
-        auth_laxz()
+def main():
+    if conn.check():
+        printall(info[0])
+        master()
     else:
-        pass
-    p__init()
-def auth_laxz():
-    try:
-        import firebase.firebase_cred
-        auth=1
-    except Exception as e:
-        print("Exception Message: "+str(e))
-def p__init():
+        printall(error[0])
+        out(True)
+
+def check_attendance(r):
+	if (db.reference('project/student/' + r +'/attendance/counter').get()/30) < 0.75:
+		return True
+	else:
+		return False
+
+def master():
+    from firebase import firebase_cred
     with open('user.log','r') as f:
         users=f.read()
     users=yaml.load(users)
+
     for i in users:
-        if fire.check_attendance(i):
+        if check_attendance(i):
             print('Under Attendance. Sending SMS ...')
-            ph = d.reference('project/student/'+i+'/phone').get()
-            name = d.reference('project/student/'+i+'/name').get()
-            roll = d.reference('project/student/'+i+'/roll').get()
+            ph = db.reference('project/student/'+i+'/phone').get()
+            name = db.reference('project/student/'+i+'/name').get()
+            roll = db.reference('project/student/'+i+'/roll').get()
             print(name, roll)
-            usr = s.Job(ph,name,roll)
+            usr = sendSMS.Job(ph,name,roll)
             sid = usr.send()
             if(sid):
                 print("Success")
@@ -45,4 +47,4 @@ def p__init():
 
 
 if __name__ =="__main__":
-	p_init()
+	main()
